@@ -1,0 +1,86 @@
+
+/**
+ * @brief Geom_2D::get_intersection get the intersection of the line with
+ * the circumcircle of the three points
+ * @param l0 endpoint of the line
+ * @param s0 endpoint of the line / vertex of the triangle
+ * @param p1 vertex of triangle
+ * @param p2 vertex of triangle
+ * @return point of intersection of circumcircle of p1, p2, p3 and the line through l1 and l2. Typically
+ * there are two points of intersection, but one will be equal to either p1, p2, or p3.
+ *
+Point_2D* Geom_2D::get_intersection(Point_2D* l0, Point_2D* s0, Point_2D *p1, Point_2D* p2){
+    //void triangle_circumcircle ( double t[2*3], double &r, double pc[2] );
+
+    double t[6];
+    t[0] = (*s0)[0];
+    t[1] = (*s0)[1];
+    t[2] = (*p1)[0];
+    t[3] = (*p1)[1];
+    t[4] = (*p2)[0];
+    t[5] = (*p2)[1];
+    double r, pc[2];
+
+    triangle_circumcircle(t, r, pc);
+    //  Parameters:
+    //
+    //    Input, double T[2*3], the triangle vertices.
+    //
+    //    Output, double TRIANGLE_ANGLES[3], the angles opposite
+    //    sides P1-P2, P2-P3 and P3-P1, in radians.
+    t[4] = pc[0];
+    t[5] = pc[1];
+    double* angles;
+    angles = triangle_angles(t);
+    double angle = angles[1];  // its the middle angle
+
+    double interval = 2 * sin((M_PI/2)-angle) * r;
+
+    double x = 0.0;
+    if ((*l0)[0]<((*s0)[0])){
+        x = (*s0)[0] - interval;
+    }else{
+        x = (*s0)[0] + interval;
+    }
+
+    return new Point_2D(x,0.0);
+}
+*/
+
+        face_vhandles.clear();
+        face_vhandles.push_back(vhandle[0]);
+        face_vhandles.push_back(vhandle[1]);
+        face_vhandles.push_back(vhandle[2]);
+        mesh2.add_face(face_vhandles);
+
+        face_vhandles.clear();
+        face_vhandles.push_back(vhandle[0]);
+        face_vhandles.push_back(vhandle[1]);
+        face_vhandles.push_back(vhandle[5]);
+        mesh2.add_face(face_vhandles);
+
+        /*********************
+        face_vhandles.clear();
+        face_vhandles.push_back(vhandle[7]);
+        face_vhandles.push_back(vhandle[1]);
+        face_vhandles.push_back(vhandle[5]);
+        mesh2.add_face(face_vhandles);
+
+        face_vhandles.clear();
+        face_vhandles.push_back(vhandle[0]);
+        face_vhandles.push_back(vhandle[6]);
+        face_vhandles.push_back(vhandle[5]);
+        mesh2.add_face(face_vhandles);
+
+        /**************
+        face_vhandles.clear();
+        face_vhandles.push_back(vhandle[1]);
+        face_vhandles.push_back(vhandle[2]);
+        face_vhandles.push_back(vhandle[3]);
+        mesh2.add_face(face_vhandles);
+
+        face_vhandles.clear();
+        face_vhandles.push_back(vhandle[0]);
+        face_vhandles.push_back(vhandle[2]);
+        face_vhandles.push_back(vhandle[4]);
+        mesh2.add_face(face_vhandles);
